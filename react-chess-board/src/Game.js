@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import Board from './Board';
 import Chess from 'chess.js';
-import {boardToFEN, FENToBoard} from './Constants';
-
-
-// export const coorToPos = (x, y) => {
-//   return String.fromCharCode(97 + y) + (8 - x).toString();
-// }
+import {boardToFEN, FENToBoard, coorToPos} from './Constants';
 
 const initialBoard = ["r","n", "b", "q", "k", "b", "n", "r",
                       "p", "p", "p", "p", "p", "p", "p", "p",
@@ -30,25 +25,14 @@ export default class Game extends Component {
     this.canDrop = this.canDrop.bind(this);
   }
   movePiece(frX, frY, toX, toY) {
-    const coorToPos = (x, y) => {
-      return String.fromCharCode(97 + y) + (8 - x).toString();
-    }
     this.chess.move({
       from: coorToPos(frX, frY),
       to: coorToPos(toX, toY)
     });
     let currentState = this.state.boardState.slice();
-    // let start = frX * 8 + frY;
-    // let end = toX * 8 + toY;
-    // if (start === end) return;
-    // currentState[end] = currentState[start];
-    // currentState[start] = " ";
     this.setState({boardState: FENToBoard(this.chess.fen())});
   }
   canDrop(frX, frY, toX, toY) {
-    const coorToPos = (x, y) => {
-      return String.fromCharCode(97 + y) + (8 - x).toString();
-    }
     const fen = this.chess.fen();
     const ret = this.chess.move({
       from: coorToPos(frX, frY),
