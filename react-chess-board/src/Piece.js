@@ -22,7 +22,9 @@ class Piece extends Component {
           opacity: isDragging ? 0 : 1,
           cursor: 'move',
           backgroundColor: 'transparent'
-        }}/>
+        }}
+        alt=''
+        />
        </div>
     );
   }
@@ -31,6 +33,9 @@ class Piece extends Component {
 const pieceSource = {
   beginDrag(props) {
     return {x:props.x, y:props.y};
+  },
+  canDrag(props){
+    return props.canDrag(props.piece);
   }
 };
 

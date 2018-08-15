@@ -19,5 +19,5 @@ export default class Square extends Component {
 }
 
 Square.propTypes = {
-  blue: propTypes.bool.isRequired
+  blue: PropTypes.bool.isRequired
 };

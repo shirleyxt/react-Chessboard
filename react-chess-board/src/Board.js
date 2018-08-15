@@ -13,7 +13,10 @@ class Board extends Component {
   }
   renderPiece(x, y, char) {
     return char === " " ?
-      null : <Piece piece={char} x={x} y={y}/>;
+      null : <Piece piece={char}
+                    x={x}
+                    y={y}
+                    canDrag={this.props.canDrag}/>;
   }
 
   renderSquare(i) {
@@ -24,7 +27,10 @@ class Board extends Component {
     return (
       <div key={i}
            style={{ width: '12.5%', height: '12.5%'}}>
-        <BoardSquare x={x} y = {y} movePiece={this.props.movePiece}>
+        <BoardSquare x={x}
+                     y = {y}
+                     movePiece={this.props.movePiece}
+                     canDrop={this.props.canDrop}>
           {this.renderPiece(x, y, this.props.boardState[i])}
         </BoardSquare>
       </div>

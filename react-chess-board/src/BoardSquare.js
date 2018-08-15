@@ -6,21 +6,21 @@ import { DropTarget } from 'react-dnd';
 
 const squareTarget = {
   drop(props, monitor) {
-  props.movePiece(monitor.getItem().x, monitor.getItem().y, props.x, props.y);
+    props.movePiece(monitor.getItem().x, monitor.getItem().y, props.x, props.y);
+  },
+  canDrop(props, monitor) {
+    return props.canDrop(monitor.getItem().x, monitor.getItem().y, props.x, props.y);
   }
 };
 
 function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver()
+    isOver: monitor.isOver(),
   };
 }
 
 class BoardSquare extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const { x, y, connectDropTarget } = this.props;
     const blue = (x + y) % 2 === 1;

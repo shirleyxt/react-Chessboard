@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import Board from './Board';
+import Chess from 'chess.js';
+import {boardToFEN, FENToBoard} from './Constants';
+
+
+// export const coorToPos = (x, y) => {
+//   return String.fromCharCode(97 + y) + (8 - x).toString();
+// }
 
 const initialBoard = ["r","n", "b", "q", "k", "b", "n", "r",
                       "p", "p", "p", "p", "p", "p", "p", "p",
@@ -7,26 +14,66 @@ const initialBoard = ["r","n", "b", "q", "k", "b", "n", "r",
                       " ", " ", " ", " ", " ", " ", " ", " ",
                       " ", " ", " ", " ", " ", " ", " ", " ",
                       " ", " ", " ", " ", " ", " ", " ", " ",
-                      "p", "p", "p", "p", "p", "p", "p", "p",
+                      "P", "P", "P", "P", "P", "P", "P", "P",
                       "R", "B", "B", "Q", "K", "B", "N", "R",
                     ];
+
 
 export default class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {boardState: initialBoard};
+    this.chess = new Chess();
+    this.chess.reset();
     this.movePiece = this.movePiece.bind(this);
+    this.canDrag = this.canDrag.bind(this);
+    this.canDrop = this.canDrop.bind(this);
   }
   movePiece(frX, frY, toX, toY) {
+    const coorToPos = (x, y) => {
+      return String.fromCharCode(97 + y) + (8 - x).toString();
+    }
+    this.chess.move({
+      from: coorToPos(frX, frY),
+      to: coorToPos(toX, toY)
+    });
     let currentState = this.state.boardState.slice();
-    let start = frX * 8 + frY;
-    let end = toX * 8 + toY;
-    if (start == end) return;
-    currentState[end] = currentState[start];
-    currentState[start] = " ";
-    this.setState({boardState: currentState});
+    // let start = frX * 8 + frY;
+    // let end = toX * 8 + toY;
+    // if (start === end) return;
+    // currentState[end] = currentState[start];
+    // currentState[start] = " ";
+    this.setState({boardState: FENToBoard(this.chess.fen())});
+  }
+  canDrop(frX, frY, toX, toY) {
+    const coorToPos = (x, y) => {
+      return String.fromCharCode(97 + y) + (8 - x).toString();
+    }
+    const fen = this.chess.fen();
+    const ret = this.chess.move({
+      from: coorToPos(frX, frY),
+      to: coorToPos(toX, toY)
+    }) != null;
+
+    console.log(this.chess.ascii());
+    console.log(ret);
+    this.chess.load(fen);
+    return ret;
+  }
+  canDrag(piece) {
+    if (this.chess.game_over()) {
+      return false;
+    }
+    if (piece === piece.toUpperCase()) {
+      return this.chess.turn() === 'w';
+    } else {
+      return this.chess.turn() === 'b';
+    }
   }
   render() {
-    return <Board boardState={this.state.boardState} movePiece={this.movePiece}/>;
-  }
+    return <Board boardState={this.state.boardState}
+                  movePiece={this.movePiece}
+                  canDrag={this.canDrag}
+                  canDrop={this.canDrop}/>;
+    }
 }
