@@ -3,8 +3,7 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import PropTypes from 'prop-types';
 
-import Piece from './Piece';
-import Square from './Square';
+import BoardPiece from './BoardPiece';
 import BoardSquare from './BoardSquare';
 
 class Board extends Component {
@@ -13,7 +12,7 @@ class Board extends Component {
   }
   renderPiece(x, y, char) {
     return char === " " ?
-      null : <Piece piece={char}
+      null : <BoardPiece piece={char}
                     x={x}
                     y={y}
                     canDrag={this.props.canDrag}/>;

@@ -39,8 +39,8 @@ export default class Game extends Component {
       to: coorToPos(toX, toY)
     }) != null;
 
-    console.log(this.chess.ascii());
-    console.log(ret);
+    //console.log(this.chess.ascii());
+    console.log({tx: toX, ty:toY, fx:frX, fy:frY, ret: ret});
     this.chess.load(fen);
     return ret;
   }
