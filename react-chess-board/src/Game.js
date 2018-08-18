@@ -58,6 +58,7 @@ export default class Game extends Component {
     return <Board boardState={this.state.boardState}
                   movePiece={this.movePiece}
                   canDrag={this.canDrag}
-                  canDrop={this.canDrop}/>;
+                  canDrop={this.canDrop}
+                  width={600}/>;
     }
 }

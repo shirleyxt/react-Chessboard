@@ -16,8 +16,8 @@ export default class Piece extends Component {
       //cursor: canDrag ? 'move': null,
     return (
         <img src={path} style={{
-          height: '85%',
-          width: '85%',
+          height: this.props.width.toString() + 'px',
+          width: this.props.width.toString() + 'px',
           backgroundColor: 'transparent'
         }}
         alt=''
@@ -28,4 +28,5 @@ export default class Piece extends Component {
 
 Piece.propTypes = {
   piece: PropTypes.string.isRequired,
+  width: PropTypes.number.isRequired,
 };

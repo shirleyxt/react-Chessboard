@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import PropTypes from 'prop-types';
-
+import PieceLayer from './PieceLayer';
 import BoardPiece from './BoardPiece';
 import BoardSquare from './BoardSquare';
 
@@ -15,7 +15,8 @@ class Board extends Component {
       null : <BoardPiece piece={char}
                     x={x}
                     y={y}
-                    canDrag={this.props.canDrag}/>;
+                    canDrag={this.props.canDrag}
+                    width={this.props.width * 0.125 * 0.85}/>;
   }
 
   renderSquare(i) {
@@ -43,21 +44,24 @@ class Board extends Component {
     }
 
     return (
-      <div style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexWrap: 'wrap'
-      }}>
-        {squares}
-      </div>
+        <div style={{
+          width: this.props.width.toString() + 'px',
+          height: this.props.width.toString() + 'px',
+          display: 'flex',
+          flexWrap: 'wrap',
+          position: 'relative',
+        }}>
+          {squares}
+          <PieceLayer />
+        </div>
     );
   }
 }
 
 Board.propTypes = {
   movePiece: PropTypes.func.isRequired,
-  boardState: PropTypes.array.isRequired
+  boardState: PropTypes.array.isRequired,
+  width: PropTypes.number.isRequired,
 };
 
 export default DragDropContext(HTML5Backend)(Board);
