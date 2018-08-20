@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import Game from './Game';
 import './App.css';
+import HTML5Backend from 'react-dnd-html5-backend';
+//import PieceLayer from './PieceLayer';
+import { DragDropContext } from 'react-dnd';
 
 class App extends Component {
   render() {
+    //<PieceLayer />
     return (
       <div className="App">
         <header className="App-header">
@@ -22,4 +26,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default DragDropContext(HTML5Backend)(App);

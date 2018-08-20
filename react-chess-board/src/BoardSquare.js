@@ -4,6 +4,10 @@ import Square from './Square';
 import { ItemTypes } from './Constants';
 import { DropTarget } from 'react-dnd';
 
+const labelStyles = {fontSize: 'calc(7px + .5vw)', position: 'absolute', userSelect: 'none'}
+const yLabelStyles = Object.assign({top: '5%', left: '5%'}, labelStyles)
+const xLabelStyles = Object.assign({bottom: '5%', right: '5%'}, labelStyles)
+
 const squareTarget = {
   drop(props, monitor) {
     props.movePiece(monitor.getItem().x, monitor.getItem().y, props.x, props.y);
@@ -36,6 +40,29 @@ class BoardSquare extends Component {
       }} />
     );
   }
+  renderLabelText(x, y) {
+    const isLeftColumn = y === 0;
+    const isBottomRow = x === 7;
+    const bottomLabel = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+
+    if (!isLeftColumn && !isBottomRow) {
+      return null;
+    }
+
+    if (isLeftColumn && isBottomRow) {
+      return [
+        <span key='blx' style={xLabelStyles}>
+          a
+        </span>,
+        <span key='bly' style={yLabelStyles}>
+          1
+        </span>
+      ]
+    }
+
+    const label = isLeftColumn ? 8 - x : bottomLabel[y];
+    return <span style={isLeftColumn ? yLabelStyles : xLabelStyles}>{label}</span>
+  }
   render() {
     const { x, y, connectDropTarget, canDrop, isOver} = this.props;
     const blue = (x + y) % 2 === 1;
@@ -51,6 +78,7 @@ class BoardSquare extends Component {
           {this.props.children}
         </Square>
         { canDrop && this.renderOverlay('black')}
+        {this.renderLabelText(x, y)}
       </div>
     );
   }

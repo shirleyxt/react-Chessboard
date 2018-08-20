@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
 import PropTypes from 'prop-types';
-import PieceLayer from './PieceLayer';
 import BoardPiece from './BoardPiece';
 import BoardSquare from './BoardSquare';
 
-class Board extends Component {
+export default class Board extends Component {
   constructor(props) {
     super(props);
   }
@@ -52,7 +49,6 @@ class Board extends Component {
           position: 'relative',
         }}>
           {squares}
-          <PieceLayer />
         </div>
     );
   }
@@ -63,5 +59,3 @@ Board.propTypes = {
   boardState: PropTypes.array.isRequired,
   width: PropTypes.number.isRequired,
 };
-
-export default DragDropContext(HTML5Backend)(Board);

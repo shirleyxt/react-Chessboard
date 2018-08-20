@@ -10,16 +10,16 @@ const initialBoard = ["r","n", "b", "q", "k", "b", "n", "r",
                       " ", " ", " ", " ", " ", " ", " ", " ",
                       " ", " ", " ", " ", " ", " ", " ", " ",
                       "P", "P", "P", "P", "P", "P", "P", "P",
-                      "R", "B", "B", "Q", "K", "B", "N", "R",
+                      "R", "N", "B", "Q", "K", "B", "N", "R",
                     ];
 
 
 export default class Game extends Component {
   constructor(props) {
     super(props);
-    this.state = {boardState: initialBoard};
     this.chess = new Chess();
     this.chess.reset();
+    this.state = {boardState: FENToBoard(this.chess.fen())};
     this.movePiece = this.movePiece.bind(this);
     this.canDrag = this.canDrag.bind(this);
     this.canDrop = this.canDrop.bind(this);

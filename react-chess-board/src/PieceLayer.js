@@ -5,7 +5,7 @@ import Piece from './Piece';
 import {ItemTypes} from './Constants';
 
 const layerStyles = {
-  position: 'absolute',
+  position: 'fixed',
   pointerEvents: 'none',
   zIndex: 100,
   left: 0,
@@ -54,9 +54,9 @@ class PieceLayer extends Component {
   }
   render() {
     const { item, itemType, isDragging } = this.props;
-    // if (!isDragging) {
-    //   return null;
-    // }
+    if (!isDragging) {
+      return null;
+    }
 
     return (
       <div style={layerStyles}>
@@ -83,7 +83,7 @@ function collect(monitor) {
     item: monitor.getItem(),
     itemType: monitor.getItemType(),
     initialOffset: monitor.getInitialSourceClientOffset(),
-    currentOffset: monitor.getSourceClientOffset(),
+    currentOffset: monitor.getClientOffset(),
     isDragging: monitor.isDragging()
   };
 }
