@@ -4,6 +4,9 @@ import Chess from 'chess.js';
 import {boardToFEN, FENToBoard, coorToPos} from './Constants';
 import PropTypes from 'prop-types';
 import {findBestMove} from './ChessAI.js';
+import axios from 'axios';
+
+const USE_BACKEND = false;
 
 export default class GameVsRobot extends Component {
   constructor(props) {
@@ -16,8 +19,37 @@ export default class GameVsRobot extends Component {
     this.canDrop = this.canDrop.bind(this);
     this.robotMove = this.robotMove.bind(this);
   }
+
+  fetchRobotMove() {
+    axios.get('/api/getstate', {
+      params: {
+        board: this.chess.fen(),
+      },
+    }).then(response => {
+      this.chess.load(response.data);
+      this.setState({boardState: FENToBoard(this.chess.fen())});
+    })
+  }
+
   robotMove() {
-    const bestMove = findBestMove(3, this.chess, this.chess.turn());
+    if (USE_BACKEND) {
+      this.fetchRobotMove();
+      return;
+    }
+
+    const validMoves = this.chess.moves();
+    let bestMove;
+    let bestScore = -9999;
+    const currentTurn = this.chess.turn();
+    for (let i = 0; i < validMoves.length; i++) {
+      this.chess.move(validMoves[i]);
+      let currentScore = findBestMove(2, this.chess, currentTurn, bestScore);
+      if (currentScore > bestScore) {
+        bestScore = currentScore;
+        bestMove = validMoves[i];
+      }
+      this.chess.undo();
+    }
     this.chess.move(bestMove);
     this.setState({boardState: FENToBoard(this.chess.fen())});
   }
@@ -32,7 +64,6 @@ export default class GameVsRobot extends Component {
   }
   canDrop(frX, frY, toX, toY) {
     const moves = this.chess.moves({square: coorToPos(frX, frY)});
-    console.log(moves);
     const fen = this.chess.fen();
     const ret = this.chess.move({
       from: coorToPos(frX, frY),

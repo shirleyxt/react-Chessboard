@@ -8,20 +8,17 @@ import Piece from './Piece';
 
 class BoardPiece extends Component {
   updatePreview() {
-		const { connectDragPreview } = this.props
-    const {piece} = this.props;
-      let picName = "";
-      if (piece === piece.toUpperCase()) {
-        picName = 'w' + piece.toUpperCase();
-      } else {
-        picName = 'b' + piece.toUpperCase();
-      }
-      const path = `img/chesspieces/alpha/${picName}.png`;
-      const img = new Image(this.props.width,this.props.width);
-      img.src = path;
-
-      img.onload = () => this.props.connectDragPreview(img);
-
+		const { connectDragPreview, piece } = this.props
+    let picName = "";
+    if (piece === piece.toUpperCase()) {
+      picName = 'w' + piece.toUpperCase();
+    } else {
+      picName = 'b' + piece.toUpperCase();
+    }
+    const path = `img/chesspieces/alpha/${picName}.png`;0
+    const img = new Image(this.props.width,this.props.width);
+    img.src = path;
+    img.onload = () => this.props.connectDragPreview(img);
   }
   componentDidUpdate() {
     this.updatePreview();
@@ -62,6 +59,7 @@ function collect(connect, monitor) {
 }
 
 BoardPiece.propTypes = {
+  connectDragPreview: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
   piece: PropTypes.string.isRequired,

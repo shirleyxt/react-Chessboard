@@ -4,9 +4,9 @@ import Square from './Square';
 import { ItemTypes } from './Constants';
 import { DropTarget } from 'react-dnd';
 
-const labelStyles = {fontSize: 'calc(7px + .5vw)', position: 'absolute', userSelect: 'none'}
-const yLabelStyles = Object.assign({top: '5%', left: '5%'}, labelStyles)
-const xLabelStyles = Object.assign({bottom: '5%', right: '5%'}, labelStyles)
+const labelStyles = {fontSize: 'calc(7px + .5vw)', position: 'absolute', userSelect: 'none', color: 'purple', opacity: '0.4'};
+const yLabelStyles = Object.assign({top: '5%', left: '5%'}, labelStyles);
+const xLabelStyles = Object.assign({bottom: '5%', right: '5%'}, labelStyles);
 
 const squareTarget = {
   drop(props, monitor) {

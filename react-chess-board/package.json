@@ -2,7 +2,9 @@
   "name": "react-chess-board",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:5000",
   "dependencies": {
+    "axios": "^0.18.0",
     "chess.js": "^0.10.2",
     "react": "^16.4.2",
     "react-dnd": "^5.0.0",
@@ -11,6 +13,8 @@
     "react-scripts": "1.1.4"
   },
   "scripts": {
+    "prod-start": "serve -s build",
+    "prod-prestart": "npm install -g serve",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

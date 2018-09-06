@@ -58,4 +58,6 @@ Board.propTypes = {
   movePiece: PropTypes.func.isRequired,
   boardState: PropTypes.array.isRequired,
   width: PropTypes.number.isRequired,
+  canDrag: PropTypes.func.isRequired,
+  canDrop: PropTypes.func.isRequired,
 };
