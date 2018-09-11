@@ -9,36 +9,30 @@ import GameVsRobot from './GameVsRobot';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {gameMode: true};
+    this.state = {vsRobot: false};
   }
-  handleClick = (mode) => {
-    this.setState({gameMode: mode});
+  flipMode = () => {
+    this.setState({vsRobot: !this.state.vsRobot});
   }
   render() {
-    let gameMode;
-    if (this.state.gameMode) {
-      gameMode = <div style={{height: '600px', width: '600px'}}><Game /></div>;
-    } else {
-      gameMode = <div style={{height: '600px', width: '600px'}}>
+    let gameBoard;
+    if (this.state.vsRobot) {
+      gameBoard = <div style={{height: '600px', width: '600px'}}>
                       <GameVsRobot robotWhite={false}/>
                  </div>;
+    } else {
+      gameBoard = <div style={{height: '600px', width: '600px'}}><Game /></div>;
     }
     return (
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Welcome to Chess Game</h1>
         </header>
-        <ul>
-          <li>Left board for Robot vs Human</li>
-          <button onClick={()=>this.handleClick(true)}>
-            Human VS Human
-          </button>
-          <li>Right board for Human vs Human</li>
-          <button onClick={()=>this.handleClick(false)}>
-            Human VS Robot
-          </button>
-        </ul>
-          {gameMode}
+        <label>Current Mode: {!this.state.vsRobot ? "Human VS Human" : "Human VS Robot"} </label>
+        <button onClick={this.flipMode}>
+          Switch to {this.state.vsRobot ? "Human VS Human" : "Human VS Robot"}
+        </button>
+        {gameBoard}
       </div>
     );
   }

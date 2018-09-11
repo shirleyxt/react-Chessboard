@@ -6,14 +6,17 @@ import PropTypes from 'prop-types';
 import {findBestMove} from './ChessAI.js';
 import axios from 'axios';
 
-const USE_BACKEND = false;
+const USE_BACKEND = true;
 
 export default class GameVsRobot extends Component {
   constructor(props) {
     super(props);
     this.chess = new Chess();
     this.chess.reset();
-    this.state = {boardState: FENToBoard(this.chess.fen())};
+    this.state = {
+      boardState: FENToBoard(this.chess.fen()),
+      waitingForRobot: false,
+    };
     this.movePiece = this.movePiece.bind(this);
     this.canDrag = this.canDrag.bind(this);
     this.canDrop = this.canDrop.bind(this);
@@ -27,7 +30,10 @@ export default class GameVsRobot extends Component {
       },
     }).then(response => {
       this.chess.load(response.data);
-      this.setState({boardState: FENToBoard(this.chess.fen())});
+      this.setState({
+        boardState: FENToBoard(this.chess.fen()),
+        waitingForRobot: false,
+      });
     })
   }
 
@@ -51,7 +57,10 @@ export default class GameVsRobot extends Component {
       this.chess.undo();
     }
     this.chess.move(bestMove);
-    this.setState({boardState: FENToBoard(this.chess.fen())});
+    this.setState({
+      boardState: FENToBoard(this.chess.fen()),
+      waitingForRobot: false,
+    });
   }
   movePiece(frX, frY, toX, toY) {
     this.chess.move({
@@ -59,8 +68,10 @@ export default class GameVsRobot extends Component {
       to: coorToPos(toX, toY),
       promotion: 'q'
     });
-    this.setState({boardState: FENToBoard(this.chess.fen())});
-    this.robotMove();
+    this.setState({
+      boardState: FENToBoard(this.chess.fen()),
+      waitingForRobot: true,
+    }, () => this.robotMove());
   }
   canDrop(frX, frY, toX, toY) {
     const moves = this.chess.moves({square: coorToPos(frX, frY)});
@@ -93,12 +104,21 @@ export default class GameVsRobot extends Component {
     }
   }
   render() {
-    return <Board boardState={this.state.boardState}
-                  movePiece={this.movePiece}
-                  canDrag={this.canDrag}
-                  canDrop={this.canDrop}
-                  width={600}/>;
-    }
+    return (
+      <div>
+        <Board boardState={this.state.boardState}
+               movePiece={this.movePiece}
+               canDrag={this.canDrag}
+               canDrop={this.canDrop}
+               width={600}/>
+        <label> {this.state.waitingForRobot ?
+                   "Waiting for robot to make a move..." :
+                   "Now it's your turn!"
+                 }
+        </label>
+      </div>
+    );
+  }
 }
 
 GameVsRobot.propTypes = {
