@@ -9,6 +9,12 @@
 # production
 /build
 
+# Python env
+/env
+
+# Google Cloud lib
+/server/lib
+
 # misc
 .DS_Store
 .env.local

@@ -1,7 +1,9 @@
 from flask import Flask, render_template,request
+from flask_cors import CORS
 import chess
 
-app = Flask(__name__, static_folder="../frontend/", template_folder="../frontend/public/")
+app = Flask(__name__, static_folder="../build/", template_folder="../build/")
+CORS(app, resources=r'/api/*')
 
 
 p = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
@@ -111,9 +113,6 @@ def minimax(depth, board, isWhiteTurn, alpha, beta):
             if beta <= alpha :
                 saveToMemo(board.fen(), depth, bestScore)
                 return bestScore
-            # if bestScore >= score:
-                # saveToMemo(board.fen(), depth, bestScore)
-                # return bestScore
         saveToMemo(board.fen(), depth, bestScore)
         return bestScore
     else :
@@ -139,21 +138,6 @@ def saveToMemo(fen, depth, score):
 
 
 
-#     const validMoves = this.chess.moves();
-#     let bestMove;
-#     let bestScore = -9999;
-#     const currentTurn = this.chess.turn();
-#     for (let i = 0; i < validMoves.length; i++) {
-#       this.chess.move(validMoves[i]);
-#       let currentScore = findBestMove(2, this.chess, currentTurn, bestScore);
-#       if (currentScore > bestScore) {
-#         bestScore = currentScore;
-#         bestMove = validMoves[i];
-#       }
-#       this.chess.undo();
-#     }
-#     this.chess.move(bestMove);
-#     this.setState({boardState: FENToBoard(this.chess.fen())});
 def minimaxRoot(board):
     bestMove = 0
     bestScore = -9999
@@ -161,9 +145,6 @@ def minimaxRoot(board):
     for move in board.legal_moves:
         board.push(move)
         curScore = minimax(3, board, curTurn, -10000, 10000)
-        print(board)
-        print(curScore)
-        print()
         if curScore > bestScore:
             bestScore = curScore
             bestMove = move
@@ -180,7 +161,6 @@ def index():
 @app.route("/api/getstate")
 def getState():
     boardString = request.args.get("board")
-    # move = request.args.get("move")
     board = chess.Board(boardString)
     print(board.turn)
 
@@ -188,7 +168,6 @@ def getState():
 
 
     print(board)
-    # board.push(chess.Move.from_uci(move))
 
     return board.fen()
 

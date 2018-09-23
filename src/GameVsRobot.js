@@ -7,7 +7,7 @@ import {findBestMove} from './ChessAI.js';
 import axios from 'axios';
 
 const USE_BACKEND = true;
-
+const BACKEND_URL = 'https://chess-flask-backend.appspot.com/';
 export default class GameVsRobot extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +24,7 @@ export default class GameVsRobot extends Component {
   }
 
   fetchRobotMove() {
-    axios.get('/api/getstate', {
+    axios.get(BACKEND_URL + 'api/getstate', {
       params: {
         board: this.chess.fen(),
       },

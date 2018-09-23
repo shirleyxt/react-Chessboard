@@ -13,9 +13,9 @@
     "react-scripts": "1.1.4"
   },
   "scripts": {
-    "prod-start": "serve -s build",
-    "prod-prestart": "npm install -g serve",
-    "start": "react-scripts start",
+    "start": "serve -s build",
+    "prestart": "npm install -g serve",
+    "local": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
