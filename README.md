@@ -5,6 +5,10 @@ Uses ReactJS and React-dnd to render the chess board. Integrated Chess.js for ch
 * Current Version support:
 * Human vs Human and Human vs AI mode.
 
+## Demo:
+[Live Web Site](https://react-chess-215305.appspot.com)
+![Human vs Human](https://media.giphy.com/media/khUi7PbtFyjRsLKzB7/giphy.gif)
+
 ## Todo:
 * Integrate with python backend for stronger AI
 
