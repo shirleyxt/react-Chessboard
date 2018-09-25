@@ -11,7 +11,6 @@ Uses ReactJS and React-dnd to render the chess board. Integrated Chess.js for ch
 ![Human vs Human](https://media.giphy.com/media/khUi7PbtFyjRsLKzB7/giphy.gif)
 ![Human vs Robot](https://media.giphy.com/media/AgOW7sVOkzi9ik1m88/giphy.gif)
 
-## Todo:
-* Integrate with python backend for stronger AI
+
 
 
